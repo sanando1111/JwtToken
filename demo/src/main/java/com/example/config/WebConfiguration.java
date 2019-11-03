@@ -12,6 +12,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class WebConfiguration extends WebSecurityConfigurerAdapter {
 	
+	//cors filter configuration
 	@Bean
 	protected CorsConfigurationSource corsConfigurationSource() {
 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
