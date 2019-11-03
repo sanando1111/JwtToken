@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.example.jwt.JwtRequest;
 import com.example.jwt.JwtResponse;
 import com.example.jwt.JwtTokenUtil;
 import com.example.jwt.JwtUserDetailsService;
+import com.example.model.OrderTransaction;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -26,6 +28,8 @@ public class HelloWorldController {
 
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
+	
+	@Autowired private JmsTemplate jmsTemplate;
 	
 	private static final Logger log = LoggerFactory.getLogger(HelloWorldController.class);
 
@@ -42,4 +46,10 @@ public class HelloWorldController {
 		return ResponseEntity.ok(new JwtResponse(token));
 
 	}
+	@RequestMapping(value = "/send", method = RequestMethod.POST)
+	  public void send(@RequestBody OrderTransaction transaction) {
+		log.info("Sending a transaction.");
+	    // Post message to the message queue named "OrderTransactionQueue"
+	    jmsTemplate.convertAndSend("OrderTransactionQueue", transaction);
+	  }
 }
