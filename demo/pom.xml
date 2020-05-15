@@ -30,7 +30,6 @@
 		<dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-hateoas</artifactId>
-    <version>2.1.4.RELEASE</version>
 </dependency>
 
 		<dependency>
@@ -113,6 +112,12 @@
     <artifactId>commons-beanutils</artifactId>
      <version>1.8.3</version>
 </dependency>
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency> 
+
         
 	</dependencies>
 
