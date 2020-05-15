@@ -1,20 +1,32 @@
 package com.example.config;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 import javax.jms.ConnectionFactory;
 
 import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.hateoas.client.LinkDiscoverer;
+import org.springframework.hateoas.client.LinkDiscoverers;
+import org.springframework.hateoas.mediatype.collectionjson.CollectionJsonLinkDiscoverer;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.config.JmsListenerContainerFactory;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
+import org.springframework.plugin.core.SimplePluginRegistry;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
 public class WebConfiguration extends WebSecurityConfigurerAdapter {
@@ -47,5 +59,15 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
 		converter.setTypeIdPropertyName("_type");
 		return converter;
 	}
+	
+	@Primary
+	@Bean
+	public LinkDiscoverers discoverers() {
+	    List<LinkDiscoverer> plugins = new ArrayList<>();
+	    plugins.add(new CollectionJsonLinkDiscoverer());
+	    return new LinkDiscoverers(SimplePluginRegistry.create(plugins));
+	}
+	
+	
 
 }
